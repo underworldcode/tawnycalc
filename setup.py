@@ -16,7 +16,7 @@ setup(
     long_description=readme,
     author='John Mansour',
     author_email='mansourjohn@gmail.com',
-    url='https://github.com/jmansour/tawnycalc',
+    url='https://github.com/underworldcode/tawnycalc',
     license=license,
     packages=find_packages(exclude=('tests', 'docs'))
 )

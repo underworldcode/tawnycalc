@@ -1,1 +1,22 @@
 __pycache__
+*.so*
+*checkpoint.ipynb
+.ipynb_checkpoints
+.pytest_cache
+.coverage
+
+jupyterbook/_build
+
+# from pip -e builds
+*.egg
+.eggs
+
+.local
+.ipython
+
+
+# Various IDE shrapnel
+
+/.idea/
+/.vscode/
+/.spyproject/

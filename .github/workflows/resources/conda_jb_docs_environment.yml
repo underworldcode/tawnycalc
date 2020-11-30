@@ -1,0 +1,16 @@
+# This is the environment needed to run the stripy examples / build the jbook
+
+name: conda-build-docs
+channels: 
+  - conda-forge
+  - geo-down-under
+dependencies:
+  - geo-down-under::tawnycalc
+  - matplotlib
+  - xvfbwrapper
+  - pip 
+  
+  - pip:
+    - jupyter-book
+    - lavavu
+

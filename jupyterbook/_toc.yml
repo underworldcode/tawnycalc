@@ -1,0 +1,9 @@
+- file: FrontPage.md
+  numbered: false
+
+- part: Tutorial
+  chapters:
+  - file: Garnet_Fractionation.ipynb
+  - file: Scipt_Only_Setup.ipynb
+
+
