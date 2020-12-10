@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from collections import OrderedDict
-from .data_objects import xyz, site_fractions, thermodynamic_properties, rbi, Printable_OrderedDict
+from .data_objects import xyz, site_fractions, thermodynamic_properties, rbi, Printable_OrderedDict, thermocalc_script
 
 class Context(object):
     """
@@ -91,12 +91,12 @@ class Context(object):
         Reloads data from working directory.
         """
         # create some defaults
-        self.prefs = OrderedDict()
-        self.prefs["calcmode"] = 1
-        self.prefs["scriptfile"] = self._id
-        self.prefs["dataset"] = None
+        self._prefs = thermocalc_script()
+        self._prefs["calcmode"] = 1
+        self._prefs["scriptfile"] = self._id
+        self._prefs["dataset"] = None
         # create an ordered dictionary to record key/value pairs
-        self._script = OrderedDict()
+        self._script = thermocalc_script()
         self._script["axfile"] = None
         self._script["autoexit"] = "yes"
 
@@ -104,18 +104,8 @@ class Context(object):
         if self.scripts_dir:
             # find tc-prefs.txt        
             tc_prefs = os.path.join(self.scripts_dir,'tc-prefs.txt')
-            if not os.path.isfile(tc_prefs):
-                raise RuntimeError("Unable to find 'tc-prefs.txt' in '{}'".format(self.scripts_dir))
             # read tc-prefs
-            with open(tc_prefs,'r') as fp:
-                while True:
-                    line = fp.readline()
-                    if not line: break
-                    line = line.split("%", 1)[0]
-                    splitline = line.split()
-                    # print(splitline)
-                    if len(splitline)>1:
-                        self.prefs[splitline[0]] = splitline[1]
+            self._prefs.load(tc_prefs)
             if 'scriptfile' not in self.prefs:
                 raise RuntimeError("'scriptfile' does not appear to be specified in 'tc-prefs.txt' file.")
 
@@ -128,55 +118,7 @@ class Context(object):
             # find scriptfile 
             sf = 'tc-' + self.prefs['scriptfile'] + '.txt'
             tc_sf = os.path.join(self.scripts_dir,sf)
-            if not os.path.isfile(tc_sf):
-                raise RuntimeError("Unable to find scriptfile '{}' in '{}'".format(sf,self.scripts_dir))
-            # read script file
-            # keep track of repeated keys to handle differently
-            from collections import defaultdict
-            keycount = defaultdict(lambda: 0)
-            with open(tc_sf,'r') as fp:
-                while True:
-                    line = fp.readline()
-                    if not line: break
-                    # get rid of everything after '%'
-                    line = line.split("%", 1)[0]
-                    splitline = line.split()
-                    if len(splitline)>0:
-                        if splitline[0] == '*':                # don't read anything past here
-                            break
-                        key = splitline[0]
-                        value = splitline[1:]
-                        # now need to decide how to enter into dictionary.
-                        # treat "xyzguess" as dictionary
-                        if key=="xyzguess":
-                            if "xyzguess" not in self._script.keys():
-                                self._script["xyzguess"] = xyz()
-                            self._script["xyzguess"][value[0]] = value[1:]
-                        elif key=="rbi":
-                            if "rbi" not in self._script:
-                                # create `rbi` object and provide `value` for oxide columns
-                                self._script["rbi"] = rbi(value)
-                            else:
-                                self._script["rbi"].add_data(value)
-                        else:
-                            val_count = len(value)
-                            if val_count == 0:                   # if no values, just set to None
-                                value = None
-                            else:
-                                value = " ".join(value)
-                                if value == 'ask':
-                                    raise RuntimeError("'ask' is not supported setting from Python interface.")
-                            # first check the number of times this key has been encountered
-                            keycount[key]+=1                       # increment key count
-                            if   keycount[key] == 1:               # if only encountered once, simply create direct pair
-                                self._script[key] = value
-                            if keycount[key] == 2:                 # this is the second time we've encountered this key,
-                                rows = list()                      # so create a list store the rows,
-                                rows.append(self._script[key])      # and append previously encountered value as first item in row list.
-                                self._script[key] = rows            # now replace that previous value with the rows list (which contains it). 
-                                                                   # note that the new value is entered in the following block.
-                            if keycount[key] > 1:
-                                self._script[key].append(value)     # append value to rows list of values
+            self._script.load(tc_sf)
             self.check_config()
 
 
@@ -219,6 +161,20 @@ class Context(object):
         return item
 
     @property
+    def prefs(self):
+        """
+        The `prefs` dictionary contains your `thermocalc` preferences. 
+        This dictionary will be populated with the data from your `scripts_dir` 
+        directory, if this parameter is set. Otherwise it will be empty and 
+        you will be required to sufficiently populate it. In either case, 
+        you may add, modify and delete values as necessary before calling `execute`. 
+
+        Please see `help(tawnycalc.data_objects.thermocalc_script)` for further
+        info on object usage.
+        """
+        return self._prefs
+
+    @property
     def script(self):
         """
         The `script` dictionary contains your `thermocalc` model configuration. 
@@ -228,103 +184,12 @@ class Context(object):
         to sufficiently populate it.  In either case, you may add, modify and
         delete values as necessary before calling `execute`. 
 
-        Key/Value pairs will be directly printed to form standard `thermocalc`
-        input.  For example 
-
-        >>> context.script[       "axfile"] = "mb50NCKFMASHTO"
-        >>> context.script[        "which"] = "chl bi pa ep ru chl g ilm sph"
-        >>> context.script[     "inexcess"] = "mu q H2O"
-        >>> context.script[       "dogmin"] = "yes 0"
-
-        is equivalent to
-
-            axfile   mb50NCKFMASHTO
-            which    chl bi pa ep ru chl g ilm sph
-            inexcess mu q H2O
-            dogmin   yes 0
-
-        To form repeat keyword entries, set the required corresponding values 
-        in a Python list.  For example:
-
-        >>> context.script[   "samecoding"] = ["mu pa", "sp mt"]
-
-        is equivalent to
-
-            samecoding mu pa
-            samecoding sp mt
-
+        Please see `help(tawnycalc.data_objects.thermocalc_script)` for further
+        info on script object usage.
         """
         return self._script
 
-
-    def print_script(self):
-        """
-        Prints the current loaded script configuration.
-        """
-        longest = self._longest_key(self._script)
-        for key, value in self._script.items():
-            if key=="rbi":
-                print("\n{} :".format(key))
-                print(repr(value),"\n")
-            elif isinstance(value, list):
-                print("{} :".format(key))
-                for item in value:
-                    print("    {}".format(self._get_string(item,10)))
-            elif isinstance(value, dict):
-                print("{} :".format(key))
-                longest_inner = self._longest_key(value)
-                for valkey,item in value.items():
-                    print("    {} : {}".format(valkey.ljust(longest_inner), self._get_string(item,10)))
-            else:
-                print("{}: {}".format(key.ljust(longest+1),self._get_string(value)))
-
-    def save_script(self, file):
-        """
-        Saves the current script configuration to a file.
-
-        Params
-        ------
-        file: str
-            Filename for saved file.
-        """
-        with open(file,'w') as fp:
-            longest = self._longest_key(self._script)
-            for key, value in self._script.items():
-                if isinstance(value, list):
-                    for item in value:
-                        fp.write("{} {}\n".format(key,self._get_string(item)))
-                elif isinstance(value,rbi):
-                    fp.write(str(value)+"\n")
-                elif isinstance(value, dict):
-                    longest_inner = self._longest_key(value)
-                    for valkey,item in value.items():
-                        fp.write("{} {} {}\n".format(key,valkey, self._get_string(item,10)))
-                else:
-                    fp.write("{} {}\n".format(key.ljust(longest+1),self._get_string(value)))
-
-    def print_prefs(self):
-        """
-        Prints the current loaded preferences configuration.
-        """
-        longest = self._longest_key(self.prefs)
-        for key, value in self.prefs.items():
-            print("{}: {}".format(key.ljust(longest+1),self._get_string(value)))
-
-    def save_prefs(self, file):
-        """
-        Saves the current preferences configuration to a file.
-
-        Params
-        ------
-        file: str
-            Filename for saved file.
-        """
-        with open(file,'w') as fp:
-            longest = self._longest_key(self.prefs)
-            for key, value in self.prefs.items():
-                fp.write("{} {}\n".format(key.ljust(longest+1),self._get_string(value)))
-
-    def execute(self, print_output=False, copy_new_files=False, datasets_dir=None):
+    def execute(self, timeout=10, copy_new_files=False, datasets_dir=None):
         """
         Execute thermocalc for the current configuration, and parse generated
         outputs. Recorded outputs include execution standard output (`stdout`),
@@ -342,19 +207,15 @@ class Context(object):
         T
         bulk_composition
         modes
-        output_stderr
-        output_stdout
         output_tc_ic
-        output_tc_log
         phases
         rbi
         site_fractions
         thermodynamic_properties
         xyz
 
-        Results objects prepended with `output_` provide the raw text from the 
-        corresponding output. Note also that dictionary entries can be accessed 
-        directly as attributes or via the usual dictionary methods:
+        Note that dictionary entries can be accessed directly as attributes or via 
+        the usual dictionary methods:
 
         >>> results.P
         11.0
@@ -364,8 +225,8 @@ class Context(object):
 
         Params
         ------
-        print_output: bool
-            If set to `True`, prints `thermocalc` output to screen. 
+        timeout: int
+            How long to wait for ThermoCalc calculation to complete.
         copy_new_files: bool
             Files which are generated resultant of the `thermocalc` execution are by 
             default not copied back to the context location. Enable this flag to have
@@ -388,10 +249,10 @@ class Context(object):
             warnings.warn("'copy_new_files' not yet implemented.\nGenerated files may be found in {}".format(self.temp_dir))
 
         # write prefs file to temp location
-        self.save_prefs(os.path.join(self.temp_dir,"tc-prefs.txt"))
+        self.prefs.save(os.path.join(self.temp_dir,"tc-prefs.txt"))
 
         # write script file
-        self.save_script(os.path.join(self.temp_dir,"tc-"+self.prefs['scriptfile']+".txt"))
+        self.script.save(os.path.join(self.temp_dir,"tc-"+self.prefs['scriptfile']+".txt"))
 
         # if not provided in this call
         if not datasets_dir:
@@ -411,13 +272,32 @@ class Context(object):
         axfile = "tc-{}.txt".format(self._script['axfile'])
         copyfile(os.path.join(datasets_dir,axfile), os.path.join(self.temp_dir,axfile))
 
-        from subprocess import Popen, PIPE, STDOUT
-        p = Popen(self.exec,cwd=self.temp_dir, stdout=PIPE, stdin=PIPE, stderr=PIPE)
-        if print_output:
-            for line in iter(p.stdout.readline, b''):
-                print('{}'.format(line.decode("cp437").rstrip()))
-        std_data = p.communicate(input=b'n\n')
-
+        outfile = "tc-{}.txt".format("tawnyout")
+        writer = open(os.path.join(self.temp_dir,outfile),'w',encoding="cp437")
+        from subprocess import Popen, PIPE, STDOUT, TimeoutExpired
+        p = Popen(self.exec,cwd=self.temp_dir, stdout=writer, stdin=PIPE, stderr=STDOUT)
+        # if print_output:
+            # for line in iter(p.stdout.readline, b''):
+            #     print('{}'.format(line.decode("cp437").rstrip()))
+        try:
+            std_data = p.communicate(input=b'n\n', timeout=timeout)
+        except TimeoutExpired as e:
+            msg =   "\nTermoCalc did not complete execution within the timeout limit.\n\n"\
+                    "If your model specification was incomplete, ThermoCalc may have\n"\
+                    "been waiting for interactive user input. Alternatively, execution\n"\
+                    "may simply have required further time.\n\n"\
+                    "You may set a custom timeout using the `timeout` parameter:\n"\
+                    "`context.execute(timeout=...)`\n\n"\
+                    "To view the output generated by TermoCalc for this execution,\n"\
+                    "call the `print_output()` method:\n"\
+                    "`context.print_output()`\n\n"\
+                    "If you would instead like to run ThermoCalc directly, all the \n"\
+                    "necessary files are located in:\n" + str(self.temp_dir)
+            raise RuntimeError(msg)
+        finally:
+            p.terminate()
+            writer.close()
+        writer.close()
 
         # create a special dictionary which allows keys/vals to be accessed
         # via object attributes
@@ -430,8 +310,6 @@ class Context(object):
                     print(key)
 
         results = ResultsDict()
-        results["output_stdout"] = std_data[0].decode("cp437") # record standard output
-        results["output_stderr"] = std_data[1].decode("cp437") # record standard error
 
         # try parse `tc-log.txt`
         try:
@@ -484,9 +362,6 @@ class Context(object):
             raise
             import warnings
             warnings.warn("Error trying to parse 'tc-log.txt'.")
-        # ok, grab entire output for user's convenience 
-        with open(os.path.join(self.temp_dir,"tc-log.txt"),'r',encoding="cp437") as fp:
-            results["output_tc_log"] = fp.read()
 
         # try parse `tc-ic.txt`
         filename = "tc-" + self.prefs["scriptfile"] + "-ic.txt"
@@ -539,3 +414,24 @@ class Context(object):
 
         return results
 
+    def print_output(self, num_lines=100, max_line_length=120):
+        """
+        Prints the output generated during the previous ThermoCalc execution.
+
+        Params
+        ------
+        num_lines: int
+            Number of lines to print.
+        max_line_length: int
+            Number of characters to be printed from each line.
+        """
+
+        outfile = "tc-{}.txt".format("tawnyout")
+        with open(os.path.join(self.temp_dir,outfile),'r',encoding="cp437") as f:
+            line_count = 0
+            while line_count<num_lines:
+                line = f.readline(max_line_length)
+                if line=="":
+                    break 
+                print(line[:-1])
+                line_count+=1

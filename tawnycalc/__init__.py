@@ -38,9 +38,14 @@ axfiles  : list
     List of a-x files provided with the `tawnycalc` package.
 
 """
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 from .core import Context
 from .data_objects import rbi, xyz
 
 datasets = [62,633]
-axfiles  = ["mb50NCKFMASHTO"]
+axfiles  = ["mb50NCKFMASHTO", 
+            "ig50NCKFMASHTOCr", 
+            "ig50NCKFMASTOCr",
+            "mp50NCKFMASHTO",
+            "mp50MnNCKFMASHTO",
+            "mp50KFMASH"]
