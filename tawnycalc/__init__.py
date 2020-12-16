@@ -40,7 +40,7 @@ axfiles  : list
 """
 __version__ = "0.2.0"
 from .core import Context
-from .data_objects import rbi, xyz
+from .data_objects import rbi, xyz, thermocalc_script, Results
 
 datasets = [62,633]
 axfiles  = ["mb50NCKFMASHTO", 

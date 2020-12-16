@@ -4,13 +4,16 @@ CHANGES: TawnyCalc
 Release 0.2.0 []
 ----------------
 * New data files added.
+* New examples added.
 * Thermocalc script files are now first class TawnyCalc
   data objects.
-* Load/Save/Copy functionality added to script files. 
+* Load/Save/Copy functionality added to script and results objects.
 * Improved handling of ThermoCalc subprocess. A default
   timeout parameter has been added, along with better access
   to resultant job standard output (via the `print_output()` 
   method).
+* Updates for ThermoCalc 3.50
+
 
 
 Release 0.1.0 []

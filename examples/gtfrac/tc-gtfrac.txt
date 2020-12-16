@@ -4,17 +4,12 @@
 
 axfile mb50NCKFMASHTO
 
-which   chl bi pa ep ru chl g ilm sph   
+with   chl bi pa ep ru g ilm sph   
 inexcess  mu q H2O  %  
 autoexit yes
-dogmin yes 0      % do G minimisation. CARE!! if bad starting guesses,
-	        % most stable assemblage may not be found. 
-            % 0 = just the result; 1 = some more info; 2 = all info as in original
-
-setmaxvar 6     % max variance (minvariance = 2) 
-
-setPwindow   11 11
-setTwindow   600 600
+dogmin 1
+maxvar 6
+diagramPT 2 20 400 1100     # new script
 
 pseudosection yes
  

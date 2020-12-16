@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from collections import OrderedDict
-from .data_objects import xyz, site_fractions, thermodynamic_properties, rbi, Printable_OrderedDict, thermocalc_script
+from .data_objects import xyz, site_fractions, thermodynamic_properties, rbi, Printable_OrderedDict, thermocalc_script, Results
 
 class Context(object):
     """
@@ -141,25 +141,6 @@ class Context(object):
         if self._script["axfile"] == None:
             raise RuntimeError("Your script must specify a valid 'axfile'.")
 
-
-    def _longest_key(self, dictguy):
-        """
-        Get length of longest dictionary key
-        """
-        longest = 0
-        for key in dictguy:
-            if len(key)>longest:
-                longest = len(key)
-        return longest
-
-    def _get_string(self, item, just=0):
-        """
-        Prints item or list of items
-        """
-        if   isinstance(item,list):
-            return " ".join(str(p).ljust(just) for p in item)
-        return item
-
     @property
     def prefs(self):
         """
@@ -231,7 +212,6 @@ class Context(object):
             Files which are generated resultant of the `thermocalc` execution are by 
             default not copied back to the context location. Enable this flag to have
             generated files copied. 
-
         datasets_dir: string
             Location of required datasets. It is usually not necessary to specify this
             as the files will be obtained from the `scripts_dir` or from `tawnycalc` 
@@ -299,17 +279,7 @@ class Context(object):
             writer.close()
         writer.close()
 
-        # create a special dictionary which allows keys/vals to be accessed
-        # via object attributes
-        class ResultsDict(dict):
-            def __init__(self, *args, **kwargs):
-                super(ResultsDict, self).__init__(*args, **kwargs)
-                self.__dict__ = self
-            def print_keys(self):
-                for key in sorted(self.keys()):
-                    print(key)
-
-        results = ResultsDict()
+        results = Results()
 
         # try parse `tc-log.txt`
         try:
@@ -358,14 +328,8 @@ class Context(object):
                                 modes[mode_key] = float(mode_value)
                             results["modes"] = modes
 
-        except:
-            raise
-            import warnings
-            warnings.warn("Error trying to parse 'tc-log.txt'.")
-
-        # try parse `tc-ic.txt`
-        filename = "tc-" + self.prefs["scriptfile"] + "-ic.txt"
-        try:
+            # try parse `tc-ic.txt`
+            filename = "tc-" + self.prefs["scriptfile"] + "-ic.txt"
             with open(os.path.join(self.temp_dir,filename),'r',encoding="cp437") as fp:
                 while True:
                     line = fp.readline()
@@ -405,9 +369,9 @@ class Context(object):
                                 thermo_props.add_data(line.split())
                             results["thermodynamic_properties"] = thermo_props
                             break
-        except:
-            import warnings
-            warnings.warn("Error trying to parse '{}'.".format(filename))
+        except Exception as e:
+            raise RuntimeError("An error appears to have been encountered running `ThermoCalc`.\n"\
+                               "Check resultant output by running `context.print_output()`.") from e
         # ok, grab entire output for user's convenience 
         with open(os.path.join(self.temp_dir,filename),'r',encoding="cp437") as fp:
             results["output_tc_ic"] = fp.read()

@@ -1,0 +1,69 @@
+xyzguess wo(L)         0.107216
+xyzguess sl(L)        0.0873506
+xyzguess fo(L)        0.0142023
+xyzguess fa(L)        0.0109878
+xyzguess jd(L)         0.151907
+xyzguess hm(L)       0.00154624
+xyzguess ek(L)       9.81910e-6
+xyzguess ti(L)       0.00413534
+xyzguess kj(L)        0.0368694
+xyzguess yct(L)       0.0885231
+xyzguess h2o(L)        0.219727
+xyzguess wo(fl)     0.000103865
+xyzguess sl(fl)      5.87807e-5
+xyzguess fo(fl)      1.41812e-8
+xyzguess fa(fl)      3.11791e-8
+xyzguess jd(fl)     0.000862050
+xyzguess hm(fl)     0.000159068
+xyzguess ek(fl)      3.29610e-7
+xyzguess ti(fl)     0.000162396
+xyzguess kj(fl)      0.00562408
+xyzguess h2o(fl)       0.985936
+xyzguess ca(plc)        0.6
+xyzguess k(plc)        0.0116338
+xyzguess x(ol)         0.102434
+xyzguess c(ol)       0.00275804
+xyzguess Q(ol)      0.000156353
+xyzguess x(opx)       0.0956777
+xyzguess y(opx)        0.182193  range  0.000 2.000
+xyzguess c(opx)       0.0489271
+xyzguess Q(opx)      -0.0475598  range -1.000 1.000
+xyzguess f(opx)       0.0177886
+xyzguess t(opx)      0.00823030
+xyzguess cr(opx)      0.0205952
+xyzguess j(opx)      0.00906326
+xyzguess x(cpx)       0.0964208
+xyzguess y(cpx)       0.0825558  range  0.000 2.000
+xyzguess o(cpx)        0.219892
+xyzguess n(cpx)        0.118338
+xyzguess Q(cpx)      -0.0282419  range -1.000 1.000
+xyzguess f(cpx)       0.0209603
+xyzguess cr(cpx)      0.0154784
+xyzguess t(cpx)       0.0127859
+xyzguess k(cpx)      0.00527429
+xyzguess x(spn)        0.144990
+xyzguess y(spn)       0.0139965
+xyzguess c(spn)       0.0451070
+xyzguess t(spn)       0.0110937
+xyzguess Q1(spn)       0.503697
+xyzguess Q2(spn)      0.0807768
+xyzguess Q3(spn)      0.0218537
+xyzguess na(ksp)       0.1
+xyzguess ca(ksp)       0.004
+xyzguess x(bi)         0.457528
+xyzguess y(bi)        0.0772161
+xyzguess f(bi)        0.0158764
+xyzguess t(bi)         0.119336
+xyzguess Q(bi)         0.228603
+xyzguess x(g)          0.455851
+xyzguess c(g)          0.286243
+xyzguess f(g)        0.00253871
+xyzguess cr(g)      0.000841005
+xyzguess t(g)         0.0113394
+xyzguess x(spn)            0.14499
+xyzguess y(spn)            0.01398
+xyzguess c(spn)            0.04504
+xyzguess t(spn)            0.01114
+xyzguess Q1(spn)           0.50372 range -1 1
+xyzguess Q2(spn)           0.08077 range -1 1
+xyzguess Q3(spn)           0.02183 range -1 1

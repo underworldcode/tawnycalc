@@ -366,7 +366,7 @@ class thermocalc_script(OrderedDict):
         Params
         ------
         filename: str
-            Name of file for script to be saved to , including full or 
+            Name of file for script to be saved to, including full or 
             relative path.
         """
         with open(filename,'w') as fp:
@@ -431,3 +431,62 @@ class thermocalc_script(OrderedDict):
         if   isinstance(item,list):
             return " ".join(str(p).ljust(just) for p in item)
         return item
+
+class Results(dict):
+    """
+    A special dictionary which allows keys/vals to be accessed
+    via object attributes
+
+    Params
+    ------
+    filename: str, optional
+        Name of file for results to be loaded from, including full or 
+        relative path.
+
+    """
+    def __init__(self, *args, filename=None, **kwargs):
+        super(Results, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
+        if filename:
+            self.load(filename)
+
+    def print_keys(self):
+        for key in sorted(self.keys()):
+            print(key)
+
+    def save(self, filename):
+        """
+        Save results dictionary to disk in JSON format.
+
+        Params
+        ------
+        filename: str
+            Name of file for results to be saved to, including full or 
+            relative path.
+        """
+        import json
+        with open(filename, 'w') as fp:
+            json.dump(self, fp)
+
+    def load(self, filename):
+        """
+        Load results dictionary from disk.
+
+        Params
+        ------
+        filename: str
+            Name of file for results to be loaded from, including full or 
+            relative path.
+        """
+        import json
+        with open(filename, 'r') as fp:
+            self.update(json.load(fp))
+
+    def copy(self):
+        """
+        Returns a deep copy of the current object.
+        """
+        import copy
+        return copy.deepcopy(self)
+
