@@ -1,6 +1,17 @@
 CHANGES: TawnyCalc
 ==================
 
+Release 0.3.0 []
+----------------
+* Update datasets.
+* Added `icfile_denitions.txt`.
+* Added `chemical_systems.py`.
+* Add `Tute1_bulk-comp-stable-assemblage.ipynb` example and 
+  associated data files.
+* Add check for oxides.
+* Minor documentation tweaks.
+* Minor updates for THERMOCALC changes. 
+
 Release 0.2.0 []
 ----------------
 * New data files added.

@@ -1,0 +1,100 @@
+@ P
+"""
+Pressure in the system, in kbar.
+"""
+
+@ T
+"""
+Temperature in the system, in degC.
+"""
+
+@ bulk_composition
+"""
+Table: The oxide units used to define the bulk composition of the system, 
+       and the percentages of those oxide units present.
+"""
+
+@ modes
+"""
+Table: The phases present in the stable assemblage, and their modes
+       (modal proportions).
+"""
+
+@ output_tc_ic
+"""
+A string representing the complete contents of the main THERMOCALC output
+file, tc-<rootname>-ic.txt, defining the most stable assemblage calculated.
+"""
+
+@ rbi
+"""
+The rbi block representing the most stable assemblage calculated.
+
+Each row in the rbi block represents a phase. For each phase, the first 
+column represents the "mode" (modal proportion) - the proportion of atoms 
+that it contributes to the system. Subsequent columns provide the number
+of each oxide unit in the phase, normalised to one formula unit of the 
+phase. 
+
+N.B. For most phases, but not for all, there is a single generally accepted 
+formula unit. In THERMOCALC/TawnyCALC, a phases is built on a set of 
+end-members drawn from the Holland & Powell dataset. The formula unit is 
+therefore inherited from the choice of end-members in the Holland & Powell
+dataset. 
+
+For details of how phases are modelled, start with hpxeosandthermocalc.org.
+"""
+
+@ site_fractions
+"""
+The occupancy of model mixing sites for each phase in the most-stable 
+calculated assemblage. Syntax for the site fraction is e.g.
+   xMgM1:    Fraction of Mg2+ on the M1 mixing site
+             Values of all ions on the M1 site (i.e. xZM1 for any Z) will
+             sum to 1.   
+             
+For details of how phases are modelled, start with hpxeosandthermocalc.org.                       
+"""
+
+@ thermodynamic_properties
+"""
+A table of key thermodynamic properties:
+
+     mode        f           G           H           S        V         rho
+
+for each phase in the most stable calculated assemblage.
+
+mode    Proportion of phase in the system, on a per-atom basis.
+
+f       Calculated as: atoms_in_system/(100 atoms_per_formula_unit)
+        A scaling factor for converting extensive properties on a 
+        formula unit basis, as shown here, to a per-atom basis, 
+        needed to establish the partial contributions of the phase
+        to the bulk properties of the system.
+
+G, H    Gibbs free energy, enthalpy, in kJ per mole formula unit.
+
+S       Entropy, in kJ/K per mole formula unit.
+
+V       Volume, in kJ/kbar per mole formula unit.
+
+rho     Density, as "specific gravity", i.e. relative to the density
+        of standard state H2O.
+
+Values for G, H, S, V and rho are also provided for the whole assemblage -
+the "bulk properties of the system" - labelled 'sys'.
+
+For details of how the thermodynamic properties are constructed, start 
+by visiting hpxeosandthermocalc.org.
+
+Calibration of the thermodynamics of phases is focused on G. The derived 
+properties, V, S and rho, are significantly less well constrained.
+"""
+
+xyz
+"""
+Composition of the variable-composition phases in the most stable calculated
+assemblage, presented as a variable:value dictionary, and expressed in 
+THERMOCALC's internal variables. These values can be used as starting guesses
+in a subsequent calculation.
+"""

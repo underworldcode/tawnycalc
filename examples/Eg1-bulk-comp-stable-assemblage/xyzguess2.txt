@@ -1,0 +1,64 @@
+samecoding pli pl
+samecoding spn mt cm
+xyzguess wo(L)         0.428589
+xyzguess sl(L)        0.0598673
+xyzguess fo(L)        0.0481122
+xyzguess fa(L)        0.0484609
+xyzguess jd(L)         0.115775
+xyzguess hm(L)        0.0611324
+xyzguess ek(L)                0  % boiler
+xyzguess ti(L)        0.0661228
+xyzguess kj(L)        0.0258236
+xyzguess yct(L)       0.0253222
+xyzguess h2o(L)           0.05
+xyzguess ca(pl)        0.766413
+xyzguess k(pl)       0.00191353
+xyzguess x(g)          0.455851
+xyzguess c(g)          0.286243
+xyzguess f(g)        0.00253871
+xyzguess cr(g)          0
+xyzguess t(g)         0.0113394
+xyzguess x(ol)           0.254989
+xyzguess c(ol)           0.00802885
+xyzguess Q(ol)           0.000896646
+xyzguess x(cpx)        0.269000
+xyzguess y(cpx)       0.0650966
+xyzguess o(cpx)        0.195872
+xyzguess n(cpx)       0.0641079
+xyzguess Q(cpx)      -0.0589398  range -1.000 1.000
+xyzguess f(cpx)       0.0494828
+xyzguess cr(cpx)              0  % boiler
+xyzguess t(cpx)       0.0119035
+xyzguess k(cpx)      0.00189539
+xyzguess x(opx)        0.313339
+xyzguess y(opx)        0.121419
+xyzguess c(opx)       0.0777359
+xyzguess Q(opx)       -0.149193  range -1.000 1.000
+xyzguess f(opx)       0.0477641
+xyzguess t(opx)      0.00648076
+xyzguess cr(opx)              0  % boiler
+xyzguess j(opx)      0.00323815
+xyzguess x(ilm)        0.8
+xyzguess Q(ilm)        0.75  range -0.990 0.990
+xyzguess x(mt)         0.442637
+xyzguess y(mt)         0.907041
+xyzguess c(mt)                0  % boiler
+xyzguess t(mt)         0.818964
+xyzguess Q1(mt)        0.311429  range -1.000 1.000
+xyzguess Q2(mt)       -0.176702  range -1.000 1.000
+xyzguess Q3(mt)        0.263491  range -1.000 1.000
+xyzguess x(hb)         0.291789
+xyzguess y(hb)         0.305636
+xyzguess z(hb)        0.0116086
+xyzguess a(hb)         0.823995
+xyzguess k(hb)        0.0129882
+xyzguess c(hb)         0.805891
+xyzguess f(hb)         0.144980
+xyzguess t(hb)         0.263881
+xyzguess Q1(hb)       0.0160110  range -1.000 1.000
+xyzguess Q2(hb)       0.0838686  range -1.000 1.000
+xyzguess x(bi)         0.457528
+xyzguess y(bi)        0.0772161
+xyzguess f(bi)        0.0158764
+xyzguess t(bi)         0.119336
+xyzguess Q(bi)         0.228603

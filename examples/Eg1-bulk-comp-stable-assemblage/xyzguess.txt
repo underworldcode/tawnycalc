@@ -1,0 +1,56 @@
+samecoding pli pl
+samecoding spn mt cm
+xyzguess wo(L)         0.428589
+xyzguess sl(L)        0.0598673
+xyzguess fo(L)        0.0481122
+xyzguess fa(L)        0.0484609
+xyzguess jd(L)         0.115775
+xyzguess hm(L)        0.0611324
+xyzguess ek(L)                0  % boiler
+xyzguess ti(L)        0.0661228
+xyzguess kj(L)        0.0258236
+xyzguess yct(L)       0.0253222
+xyzguess h2o(L)               0  % boiler
+xyzguess ca(pl)        0.552056
+xyzguess k(pl)        0.0309381
+xyzguess x(g)          0.455851
+xyzguess c(g)          0.286243
+xyzguess f(g)        0.00253871
+xyzguess cr(g)          0
+xyzguess t(g)         0.0113394
+xyzguess x(ol)           0.254989
+xyzguess c(ol)           0.00802885
+xyzguess Q(ol)           0.000896646
+xyzguess x(cpx)        0.313192
+xyzguess y(cpx)       0.0309835
+xyzguess o(cpx)        0.224779
+xyzguess n(cpx)       0.0768701
+xyzguess Q(cpx)      -0.0614060  range -1.000 1.000
+xyzguess f(cpx)       0.0481720
+xyzguess cr(cpx)              0  % boiler
+xyzguess t(cpx)       0.0172284
+xyzguess k(cpx)       0.0138625
+xyzguess x(opx)        0.359495
+xyzguess y(opx)        0.110678
+xyzguess c(opx)        0.074058
+xyzguess Q(opx)       -0.140936  range -1.000 1.000
+xyzguess f(opx)       0.0465632
+xyzguess t(opx)       0.00719970
+xyzguess cr(opx)              0  % boiler
+xyzguess j(opx)       0.00288054
+xyzguess x(ilm)        0.8
+xyzguess Q(ilm)        0.75  range -0.990 0.990
+xyzguess x(spn)            0.1
+xyzguess y(spn)            0.05
+xyzguess c(spn)             0
+xyzguess t(spn)            0.05
+xyzguess Q1(spn)           0.001 range -1 1
+xyzguess Q2(spn)           0.001 range -1 1
+xyzguess Q3(spn)           0.001 range -1 1
+xyzguess x(mt)         0.631121
+xyzguess y(mt)         0.898924
+xyzguess c(mt)                0  % boiler
+xyzguess t(mt)         0.812764
+xyzguess Q1(mt)        0.318386  range -1.000 1.000
+xyzguess Q2(mt)       -0.131032  range -1.000 1.000
+xyzguess Q3(mt)        0.207782  range -1.000 1.000

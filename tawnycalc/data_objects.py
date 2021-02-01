@@ -1,4 +1,6 @@
 from collections import OrderedDict
+from .chemical_system import oxide_data
+import warnings
 
 class Printable_OrderedDict(OrderedDict):
     """
@@ -175,6 +177,11 @@ class thermodynamic_properties(_tabled_data):
         line:  list
             List of string tokens read from the a TC input/output.
         """
+        if (line[0] == 'sys' or line[0] == 'bulk'):
+            if 'mode' in self.header:
+                line.insert( self.header.index('mode')+1, '-')
+            if 'f' in self.header:
+                line.insert( self.header.index('f')+1, '-') 
         if len(line) != len(self.header)+1:
             raise RuntimeError("Error parsing thermodynamic data.\nExpected property count ({}) is different from that encountered ({}) for phase '{}'.".format(len(self.header),len(line)-1,line[0]))
         phase_dict = self[line[0]] = OrderedDict()
@@ -189,6 +196,9 @@ class rbi(_tabled_data):
     ------
     oxides: list
         list of oxides. Ie, the rbi columns.
+        List must be a subset of the oxides recognised by THERMOCALC, and 
+        conform with the expected order. The THERMOCALC oxides can be obtained
+        from 'oxide_data().tcalc_oxides'. 
 
     """
     def __init__(self, oxides):
@@ -196,6 +206,17 @@ class rbi(_tabled_data):
             oxides = oxides.split()
         super().__init__(header=oxides)
         self.oxides = self.header
+        oxide_order = oxide_data().tcalc_oxides
+        self.invalid_oxides = [ i for i in self.oxides if i not in oxide_order]
+        if self.invalid_oxides:
+            invalid_oxide_str = ", ".join(self.invalid_oxides)
+            warnings.warn("The following oxides cannot be handled and must be removed: {}".format(invalid_oxide_str))
+        else:
+            self.ordered_oxides = [ i for i in oxide_order if i in self.oxides]
+            if self.oxides != self.ordered_oxides:   
+                ordered_oxide_str =  ", ".join(self.ordered_oxides)      
+                warnings.warn("Incorrect oxide order: must be {}".format(ordered_oxide_str))
+        
 
     def add_data(self, line):
         """
@@ -296,7 +317,17 @@ class thermocalc_script(OrderedDict):
         samecoding mu pa
         samecoding sp mt
 
+    Params
+    ------
+    filename: str
+        Optional. If provided, script is loaded from specified file.
+
     """
+    def __init__(self, filename=None):
+        super(thermocalc_script, self).__init__()
+        if filename:
+            self.load(filename)
+
     def load(self, filename):
         """
         Load `thermocalc` script file from disk.

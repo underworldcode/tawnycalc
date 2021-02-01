@@ -40,6 +40,7 @@ axfiles  : list
 """
 __version__ = "0.2.0"
 from .core import Context
+from .chemical_system import wt2mol, mol2wt, oxide_data, atoms_from_oxides, deconstruct_rbi, bulk_composition, partial_property
 from .data_objects import rbi, xyz, thermocalc_script, Results
 
 datasets = [62,633]
