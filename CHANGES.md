@@ -1,6 +1,17 @@
 CHANGES: TawnyCalc
 ==================
 
+Release 0.4.0 []
+----------------
+* Added THERMOCALC binaries for Windows, Apple & Linux.
+  Working but not tested extensively on Windows.
+  Working and tested on Linux. 
+  Not as of yet tested on Apple. 
+* Minor fixes for some error checking.
+* Tweaks for version numbering.
+* Pip installable.
+
+
 Release 0.3.0 []
 ----------------
 * Update datasets.

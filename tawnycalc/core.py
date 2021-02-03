@@ -58,18 +58,27 @@ class Context(object):
             return None
 
         if tc_executable:
+            # Test explicitly specified executable
             self.exec = which(tc_executable)
             if self.exec is None:
                 raise RuntimeError("Parameter specified executable {} does not appear to be valid".format(tc_executable))
         elif "THERMOCALC_EXECUTABLE" in os.environ:
+            # Test environment variable specified executable
             self.exec = which(os.environ["THERMOCALC_EXECUTABLE"])
             if self.exec is None:
                 raise RuntimeError("Environment specified executable {} does not appear to be valid".format(os.environ["THERMOCALC_EXECUTABLE"]))
         else:
-            self.exec = which('thermo')
-            if self.exec is None:
-                raise RuntimeError("Unable to find `thermo` executable. Ensure it is in your path, or set " \
-                                   "the `THERMOCALC_EXECUTABLE` environment variable, or the `tc_executable` parameter.")
+            # Test distributed executable
+            package_dir = os.path.dirname(os.path.realpath(__file__))
+            bin_dir = os.path.join(package_dir,"bin")
+            import platform
+            self.exec = which(os.path.join(bin_dir,"thermo_"+platform.system()))
+            # Test for executable in PATH
+            if not self.exec:
+                self.exec = which('thermo')
+                if self.exec is None:
+                    raise RuntimeError("Unable to find `thermo` executable. Ensure it is in your path, or set " \
+                                    "the `THERMOCALC_EXECUTABLE` environment variable, or the `tc_executable` parameter.")
         self.scripts_dir = scripts_dir
         def randomword():
             import random, string

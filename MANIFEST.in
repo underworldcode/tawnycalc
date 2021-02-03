@@ -1,1 +1,3 @@
-include LICENSE
+include tawnycalc/LICENSE
+include tawnycalc/bin/thermo*
+include tawnycalc/datasets/*

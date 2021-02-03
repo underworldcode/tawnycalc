@@ -84,9 +84,8 @@ class oxide_data:
             self.tcalc_oxides = [ l for l in self.oxdat if (len(l)>0 and l[0]=='oxides') ][0][1:]
             self.atoms_per_oxide = { self.tcalc_oxides[i] : self.nAox[i] for i in range(len(self.tcalc_oxides)) }
             self.molar_masses = { self.tcalc_oxides[i] : self.mWox[i] for i in range(len(self.tcalc_oxides)) }        
-        except:
-            import warnings
-            warnings.warn("Unable to parse `oxide_data.txt', expected in\n {}".str(self.datasets_dir))
+        except Exception as exc:
+            raise RuntimeError("Unable to parse `oxide_data.txt', expected in\n {}".format(self.datasets_dir)) from exc
     
 
 class deconstruct_rbi:
