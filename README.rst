@@ -1,10 +1,11 @@
 TawnyCALC 
 =========
 
-.. image:: tawnycalc.png
+.. image:: https://raw.githubusercontent.com/underworldcode/tawnycalc/master/tawnycalc.png
   :width: 100
   :scale: 25
   :align: left
+  :alt: tawny-owl
 
 .. image:: https://mybinder.org/badge_logo.svg
  :target: https://mybinder.org/v2/gh/jmansour/tawnycalc/master

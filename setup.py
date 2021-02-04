@@ -9,9 +9,6 @@ with open("tawnycalc/_version.py") as fp:
 with open('README.rst') as f:
     readme = f.read()
 
-with open('LICENSE') as f:
-    license = f.read()
-
 setup(
     name='tawnycalc',
     version=version['__version__'],
@@ -20,7 +17,7 @@ setup(
     author='John Mansour',
     author_email='mansourjohn@gmail.com',
     url='https://github.com/underworldcode/tawnycalc',
-    license=license,
+    license='LGPL-3',
     include_package_data=True,
     packages=find_packages(exclude=('tests', 'docs'))
 )
