@@ -37,7 +37,3 @@ Once configured satisfactorily, execution is performed as follows:
 The results of the `thermocalc` execution are then parsed by `tawnycalc` and 
 provided as Python objects for analysis. The user may use the results to 
 determine the input configuration for further `thermocalc` executions.
-
-Note that this package does not provide the required `thermocalc` executable 
-itself. Refer to the `tawnycalc.Context` class for further information. 
-

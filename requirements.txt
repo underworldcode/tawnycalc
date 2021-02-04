@@ -1,1 +1,4 @@
-tabulate
+#!/usr/bin/env python
+ 
+# Forces pip to refer to setup.py for requirements
+.

@@ -19,6 +19,7 @@ setup(
     url='https://github.com/underworldcode/tawnycalc',
     license='LGPL-3',
     include_package_data=True,
-    packages=find_packages(exclude=('tests', 'docs'))
-)
+    packages=find_packages(exclude=('tests', 'docs')),
+    provides=['tawnycalc'],
+    install_requires=['tabulate',])
 
